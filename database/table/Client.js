@@ -19,6 +19,7 @@ function Client() {
   this.updateClient = updateClient; // 更新客户
   this.deleteItem = deleteItem; // 根据id删除客户
   this.allDepartment = allDepartment; // 根据id删除客户
+  this.getClientByNumber = getClientByNumber; // 根据number获取用户
 }
 
 function getAll(params) {
@@ -63,6 +64,17 @@ function allDepartment() {
     conn.query(query, (err, res) => {
       if(err) reject(err);
       else resolve(res);
+    });
+  });
+}
+
+// 根据用户编号获取用户
+function getClientByNumber(number) {
+  let query = `select * from ${this.name} where number = ${number}`;
+  return new Promise((resolve, reject) => {
+    conn.query(query, (err, res) => {
+      if(err) reject(err);
+      else resolve(res[0]);
     });
   });
 }

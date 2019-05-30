@@ -23,11 +23,22 @@ function User() {
     });
   };
 
-  this.getUserByName = getUserByName
+  this.getUserByName = getUserByName;
+  this.updatePassword = updatePassword;
 }
 
 function getUserByName(username) {
   let query = `select * from ${this.name} where username = '${username}'`;
+  return new Promise((resolve, reject) => {
+    conn.query(query, (err, res) => {
+      if(err) reject(err);
+      else resolve(res[0]);
+    });
+  });
+}
+
+function updatePassword(id, password) {
+  let query = `update ${this.name} set password = ${password} where id = ${id}`;
   return new Promise((resolve, reject) => {
     conn.query(query, (err, res) => {
       if(err) reject(err);

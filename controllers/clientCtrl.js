@@ -20,8 +20,14 @@ async function addClient(ctx, next) {
     department: params.department,
     date: format(new Date())
   };
-  let res = await Client.insert([client]);
-  ctx.body = { code: 0, res: res };
+  // 判断编号是否存在
+  let exitClient = await Client.getClientByNumber(client.number);
+  if (exitClient) {
+    ctx.body = { code: 5, msg: '用户编号存在，请更换' };
+  } else {
+    let res = await Client.insert([client]);
+    ctx.body = { code: 0, res: res };
+  }
 }
 
 async function updateClient(ctx, next) {
